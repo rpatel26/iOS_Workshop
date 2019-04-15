@@ -7,18 +7,22 @@
 //
 
 import UIKit
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-//    let defaults = UserDefaults.standard
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-//        alarm_list = defaults.object(forKey: "alarm list") as? [Alarm] ?? [Alarm]()
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
+            print("granted: \(granted)")
+        }
+        
+        // need 3 object: the content, trigger, request
         return true
     }
 
@@ -47,10 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         print("application will terminate...")
-//        defaults.set(alarm_list, forKey: "alarm list")
-
     }
-
 
 }
 

@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import UserNotifications
 
 struct Alarm: Codable{
     var title = "Alarm Title"
     var time = ""
     var state = false
+    var date: Date = Date()
 }
 
 var alarm_list = [Alarm]()
@@ -19,6 +21,28 @@ var alarm_list = [Alarm]()
 func save_alarm_list() {
     // user default to save date in case app terminates...
     UserDefaults.standard.set(try? PropertyListEncoder().encode(alarm_list), forKey: "alarm_list")
+    
+    for i in alarm_list {
+        if i.state == true {
+            let content = UNMutableNotificationContent()
+            content.title = i.title
+            content.body = i.time
+            content.sound = UNNotificationSound.default
+
+            var date = DateComponents()
+            let calendar = Calendar.current
+            date.hour = calendar.component(.hour, from: i.date)
+            date.minute = calendar.component(.minute, from: i.date)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
+
+            let requtes = UNNotificationRequest(identifier: i.title, content: content, trigger: trigger)
+
+            UNUserNotificationCenter.current().add(requtes, withCompletionHandler: nil)
+        }
+        else {
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [i.title])
+        }
+    }
 }
 
 func load_alarm_list() {
@@ -62,11 +86,24 @@ class AlarmTableViewController: UITableViewController {
         
         load_alarm_list()
         self.tableView.reloadData()
+        
+//        let content = UNMutableNotificationContent()
+//        content.title = "Title"
+//        content.body = "Body..."
+//        content.sound = UNNotificationSound.default
+//
+//        var date = DateComponents()
+//        date.hour = 4
+//        date.minute = 21
+//        let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
+//
+//        let requtes = UNNotificationRequest(identifier: "random_string", content: content, trigger: trigger)
+//
+//        UNUserNotificationCenter.current().add(requtes, withCompletionHandler: nil)
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        print("number of rows == ", alarm_list.count)
         return alarm_list.count
     }
 

@@ -110,11 +110,9 @@ class ViewController: UIViewController {
         new_alarm.title = alarm_title.text ?? "Alarm Title"
         new_alarm.time = get_alarm_time()
         new_alarm.state = true
+        new_alarm.date = alarm_time.date
         
         alarm_list.append(new_alarm)
-
-//        // user default to save date in case app terminates...
-//        UserDefaults.standard.set(try? PropertyListEncoder().encode(alarm_list), forKey: "randomKey")
         save_alarm_list()
         
     }
