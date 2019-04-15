@@ -22,6 +22,7 @@ func save_alarm_list() {
     // user default to save date in case app terminates...
     UserDefaults.standard.set(try? PropertyListEncoder().encode(alarm_list), forKey: "alarm_list")
     
+    // to enable push notification when app isn't running
     for i in alarm_list {
         if i.state == true {
             let content = UNMutableNotificationContent()
@@ -54,8 +55,6 @@ func load_alarm_list() {
 
 func delete_alarm_list() {
     UserDefaults.standard.removeObject(forKey: "alarm_list")
-    UserDefaults.standard.removeObject(forKey: "tag")
-
 }
 
 class AlarmTableViewController: UITableViewController {
@@ -65,7 +64,7 @@ class AlarmTableViewController: UITableViewController {
         
 //        delete_alarm_list()
         
-        Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { (timer) in
+        Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { (timer) in
             
             let current_time = self.get_current_time()
             for i in alarm_list {
@@ -86,20 +85,6 @@ class AlarmTableViewController: UITableViewController {
         
         load_alarm_list()
         self.tableView.reloadData()
-        
-//        let content = UNMutableNotificationContent()
-//        content.title = "Title"
-//        content.body = "Body..."
-//        content.sound = UNNotificationSound.default
-//
-//        var date = DateComponents()
-//        date.hour = 4
-//        date.minute = 21
-//        let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
-//
-//        let requtes = UNNotificationRequest(identifier: "random_string", content: content, trigger: trigger)
-//
-//        UNUserNotificationCenter.current().add(requtes, withCompletionHandler: nil)
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
