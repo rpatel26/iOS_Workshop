@@ -63,7 +63,8 @@ class AlarmTableViewController: UITableViewController {
         super.viewDidLoad()
         
 //        delete_alarm_list()
-        
+//        tableView.delegate = self
+//        tableView.dataSource = self
         Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { (timer) in
             
             let current_time = self.get_current_time()
@@ -113,6 +114,19 @@ class AlarmTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("selected row...", indexPath.row)
     }
+    
+//    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+//        return true
+//    }
+    
+//    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCell.EditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+//        if (editingStyle == UITableViewCell.EditingStyle.delete) {
+//            // handle delete
+//            alarm_list.remove(at: indexPath.row)
+//
+//            tableView.deleteRows(at: [indexPath as IndexPath], with: .automatic)
+//        }
+//    }
 
     @objc func switch_toogled(sender: UISwitch) {        
         // switch is toogled on

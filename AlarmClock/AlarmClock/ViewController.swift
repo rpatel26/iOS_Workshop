@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import AudioToolbox
+//import AudioToolbox
 
 class ViewController: UIViewController {
 
@@ -15,11 +15,16 @@ class ViewController: UIViewController {
     @IBOutlet weak var alarm_title: UITextField!
     @IBOutlet weak var alarm_time: UIDatePicker!
     
-    
+
     var repetition_days = [String : Bool]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //dismiss keyboard when tapped away
+        let tap = UITapGestureRecognizer(target: self.view, action: Selector("endEditing:"))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
         
         self.info_label.text = self.get_current_time()
         
