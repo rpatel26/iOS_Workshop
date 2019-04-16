@@ -115,18 +115,20 @@ class AlarmTableViewController: UITableViewController {
         print("selected row...", indexPath.row)
     }
     
-//    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-//        return true
-//    }
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
     
-//    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCell.EditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-//        if (editingStyle == UITableViewCell.EditingStyle.delete) {
-//            // handle delete
-//            alarm_list.remove(at: indexPath.row)
-//
-//            tableView.deleteRows(at: [indexPath as IndexPath], with: .automatic)
-//        }
-//    }
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            print("Deleted")
+            alarm_list.remove(at: indexPath.row)
+            self.tableView.beginUpdates()
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            self.tableView.endUpdates()
+            save_alarm_list()
+        }
+    }
 
     @objc func switch_toogled(sender: UISwitch) {        
         // switch is toogled on
